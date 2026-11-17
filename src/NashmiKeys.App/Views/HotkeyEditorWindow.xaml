@@ -1,0 +1,253 @@
+<Window x:Class="NashmiKeys.App.Views.HotkeyEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Hotkey"
+        Width="820" Height="780"
+        MinWidth="700" MinHeight="560"
+        ShowInTaskbar="False"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource AppWindow}"
+        Loaded="Window_Loaded"
+        Deactivated="Window_Deactivated"
+        Closing="Window_Closing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="24,18,24,16">
+            <StackPanel>
+                <TextBlock x:Name="HeaderTitle" Text="Add hotkey" Style="{StaticResource H1Text}" />
+                <TextBlock Text="Controller chord in, keyboard keys out. The chord is a set; outputs are independent."
+                           Style="{StaticResource SmallMutedText}"
+                           Margin="0,4,0,0" />
+            </StackPanel>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel Margin="24,16,24,12">
+                <!-- Name -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="NAME" Style="{StaticResource CaptionText}" />
+                        <TextBox x:Name="NameBox" Margin="0,7,0,0" MaxLength="80" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Controller input -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="CONTROLLER INPUT" Style="{StaticResource CaptionText}" />
+                        <TextBlock Text="A combo is a set — button order does not matter. Press buttons on the controller to add them."
+                                   Style="{StaticResource SmallMutedText}"
+                                   Margin="0,4,0,0" />
+
+                        <Border Background="{StaticResource SurfaceBrush}"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="12,10"
+                                Margin="0,12,0,0">
+                            <StackPanel>
+                                <TextBlock x:Name="InputLiveTitle"
+                                           Text="Press the buttons on your controller now"
+                                           FontWeight="SemiBold" />
+                                <ItemsControl x:Name="LiveInputItems" Margin="0,8,0,0">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Style="{StaticResource InputChip}" Padding="6,2">
+                                                <TextBlock Text="{Binding}" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource AccentHoverBrush}" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock x:Name="LiveInputEmpty"
+                                           Text="No buttons pressed"
+                                           Style="{StaticResource SmallMutedText}"
+                                           Margin="0,5,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <Grid Margin="0,14,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Chord inputs" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <Button Grid.Column="1" Content="Clear" Style="{StaticResource GhostButton}" Padding="8,4" FontSize="12" Click="ClearInputs_Click" />
+                        </Grid>
+
+                        <ItemsControl x:Name="ChordItems" Margin="0,7,0,0">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource InputChip}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Label}" FontSize="11.5" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                            <Button Content="×"
+                                                    Tag="{Binding Id}"
+                                                    Style="{StaticResource GhostButton}"
+                                                    Width="18" Height="18"
+                                                    Padding="0"
+                                                    Margin="5,0,0,0"
+                                                    FontSize="12"
+                                                    Foreground="{StaticResource MutedBrush}"
+                                                    Click="RemoveInput_Click" />
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <TextBlock x:Name="ChordEmpty"
+                                   Text="No inputs yet — press a controller button above or use the picker below."
+                                   Style="{StaticResource SmallMutedText}"
+                                   Margin="0,4,0,0" />
+
+                        <Grid Margin="0,12,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="ManualInputCombo" />
+                            <Button Grid.Column="1" Content="Add input" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" Click="AddManualInput_Click" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Keyboard output -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="KEYBOARD OUTPUT" Style="{StaticResource CaptionText}" />
+                        <TextBlock Text="Keys are independent of the inputs. Modifiers are injected first, then the rest in the order shown."
+                                   Style="{StaticResource SmallMutedText}"
+                                   Margin="0,4,0,0" />
+
+                        <Border x:Name="OutputCaptureBorder"
+                                Focusable="True"
+                                FocusVisualStyle="{x:Null}"
+                                Background="{StaticResource SurfaceBrush}"
+                                BorderBrush="{StaticResource BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Padding="12,10"
+                                Margin="0,12,0,0"
+                                Cursor="Hand"
+                                MouseLeftButtonDown="OutputCaptureBorder_MouseLeftButtonDown"
+                                GotKeyboardFocus="OutputCaptureBorder_GotKeyboardFocus"
+                                LostKeyboardFocus="OutputCaptureBorder_LostKeyboardFocus">
+                            <StackPanel>
+                                <TextBlock x:Name="OutputCaptureHint"
+                                           Text="Click here, then press keyboard keys"
+                                           FontWeight="SemiBold" />
+                                <ItemsControl x:Name="OutputItems" Margin="0,8,0,0">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Style="{StaticResource Chip}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Label}" FontSize="11.5" VerticalAlignment="Center" />
+                                                    <Button Content="×"
+                                                            Tag="{Binding Id}"
+                                                            Style="{StaticResource GhostButton}"
+                                                            Width="18" Height="18"
+                                                            Padding="0"
+                                                            Margin="5,0,0,0"
+                                                            FontSize="12"
+                                                            Foreground="{StaticResource MutedBrush}"
+                                                            Click="RemoveOutput_Click" />
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock x:Name="OutputEmpty"
+                                           Text="No output keys yet."
+                                           Style="{StaticResource SmallMutedText}"
+                                           Margin="0,5,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <Grid Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Stop capturing" Style="{StaticResource GhostButton}" Padding="8,4" FontSize="12" Click="StopCapture_Click" />
+                                <Button Content="Clear" Style="{StaticResource GhostButton}" Padding="8,4" FontSize="12" Margin="4,0,0,0" Click="ClearOutputs_Click" />
+                            </StackPanel>
+                            <TextBlock Grid.Column="1"
+                                       Text="Esc is recordable"
+                                       Style="{StaticResource SmallMutedText}"
+                                       VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="ManualOutputCombo" />
+                            <Button Grid.Column="1" Content="Add key" Style="{StaticResource SecondaryButton}" Margin="8,0,0,0" Click="AddManualOutput_Click" />
+                        </Grid>
+
+                        <TextBlock Text="Capture swallows keyboard input while active so shortcuts such as Alt+Tab or Win do not act on Windows. Ctrl+Alt+Del cannot be captured or emulated."
+                                   Style="{StaticResource SmallMutedText}"
+                                   Margin="0,10,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Mode -->
+                <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+                    <StackPanel>
+                        <TextBlock Text="MODE" Style="{StaticResource CaptionText}" />
+                        <ComboBox x:Name="ModeCombo" Margin="0,8,0,0" Width="180" HorizontalAlignment="Left" SelectionChanged="ModeCombo_SelectionChanged" />
+                        <TextBlock x:Name="ModeExplanation"
+                                   Style="{StaticResource SmallMutedText}"
+                                   Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="OverlapBanner" Style="{StaticResource BannerBorder}" Background="{StaticResource WarningSoftBrush}" BorderBrush="{StaticResource WarningBrush}" Visibility="Collapsed" Margin="0,0,0,12">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="!" FontWeight="Bold" Foreground="{StaticResource WarningBrush}" Margin="0,0,9,0" />
+                        <TextBlock x:Name="OverlapText" TextWrapping="Wrap" MaxWidth="680" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Border Grid.Row="2" Background="{StaticResource BgBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="24,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="ValidationText"
+                           Foreground="{StaticResource DangerBrush}"
+                           TextWrapping="Wrap"
+                           VerticalAlignment="Center"
+                           Margin="0,0,16,0" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="Cancel" Style="{StaticResource SecondaryButton}" MinWidth="90" IsCancel="True" Click="Cancel_Click" />
+                    <Button x:Name="SaveButton" Content="Save hotkey" Style="{StaticResource PrimaryButton}" MinWidth="110" Margin="8,0,0,0" Click="Save_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

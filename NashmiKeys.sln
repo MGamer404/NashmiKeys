@@ -1,0 +1,52 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5CA1B797-FF68-43DA-A170-01DD6342CB5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashmiKeys.Core", "src\NashmiKeys.Core\NashmiKeys.Core.csproj", "{C8C2FCF9-FA53-4FAA-B910-D52D5AB4E21B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D6EC2A54-311C-4323-91DE-BA789404A279}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashmiKeys.Tests", "tests\NashmiKeys.Tests\NashmiKeys.Tests.csproj", "{DD084EE8-D01A-42B4-80ED-6ADAC47E07F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{37F2515D-2E40-4F35-8733-EC56BCDA60C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashmiKeys.Cli", "tools\NashmiKeys.Cli\NashmiKeys.Cli.csproj", "{8BD591C1-A346-417B-93A1-C6A227AB8591}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NashmiKeys.App", "src\NashmiKeys.App\NashmiKeys.App.csproj", "{5E44C62E-456B-4FAD-BA76-9AC404318B0C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8C2FCF9-FA53-4FAA-B910-D52D5AB4E21B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8C2FCF9-FA53-4FAA-B910-D52D5AB4E21B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8C2FCF9-FA53-4FAA-B910-D52D5AB4E21B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8C2FCF9-FA53-4FAA-B910-D52D5AB4E21B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD084EE8-D01A-42B4-80ED-6ADAC47E07F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD084EE8-D01A-42B4-80ED-6ADAC47E07F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD084EE8-D01A-42B4-80ED-6ADAC47E07F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD084EE8-D01A-42B4-80ED-6ADAC47E07F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BD591C1-A346-417B-93A1-C6A227AB8591}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BD591C1-A346-417B-93A1-C6A227AB8591}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BD591C1-A346-417B-93A1-C6A227AB8591}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BD591C1-A346-417B-93A1-C6A227AB8591}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E44C62E-456B-4FAD-BA76-9AC404318B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E44C62E-456B-4FAD-BA76-9AC404318B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E44C62E-456B-4FAD-BA76-9AC404318B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E44C62E-456B-4FAD-BA76-9AC404318B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C8C2FCF9-FA53-4FAA-B910-D52D5AB4E21B} = {5CA1B797-FF68-43DA-A170-01DD6342CB5F}
+		{DD084EE8-D01A-42B4-80ED-6ADAC47E07F5} = {D6EC2A54-311C-4323-91DE-BA789404A279}
+		{8BD591C1-A346-417B-93A1-C6A227AB8591} = {37F2515D-2E40-4F35-8733-EC56BCDA60C6}
+		{5E44C62E-456B-4FAD-BA76-9AC404318B0C} = {5CA1B797-FF68-43DA-A170-01DD6342CB5F}
+	EndGlobalSection
+EndGlobal

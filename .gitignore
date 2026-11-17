@@ -1,0 +1,21 @@
+# Build output
+bin/
+obj/
+dist/
+installer/output/
+installer-backup/
+.tools/
+
+# IDE
+.vs/
+*.user
+*.suo
+*.DotSettings.user
+
+# Debug symbols and logs
+*.pdb
+*.log
+
+# OS
+Thumbs.db
+Desktop.ini
