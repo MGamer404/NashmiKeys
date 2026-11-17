@@ -70,7 +70,9 @@ Name: "{autodesktop}\NashmiKeys"; Filename: "{app}\NashmiKeys.exe"; Tasks: deskt
 
 [Run]
 Filename: "{app}\NashmiKeys.exe"; Parameters: "--register-autostart --minimized"; StatusMsg: "Configuring NashmiKeys to start with Windows..."; Flags: runhidden waituntilterminated; Tasks: autostart
-Filename: "{app}\NashmiKeys.exe"; Description: "Launch NashmiKeys"; Flags: nowait postinstall skipifsilent
+; runascurrentuser is required: postinstall entries default to the original
+; (non-elevated) user, and NashmiKeys.exe requires elevation -> CreateProcess 740.
+Filename: "{app}\NashmiKeys.exe"; Description: "Launch NashmiKeys"; Flags: nowait postinstall skipifsilent runascurrentuser
 
 [UninstallRun]
 ; The app removes both the NashmiKeys task and any leftover PadHotkeys task.
